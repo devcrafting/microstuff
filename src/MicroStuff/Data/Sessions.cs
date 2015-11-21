@@ -16,15 +16,27 @@ namespace MicroStuff.Data
     public class Sessions : ISessions
     {
         private readonly HttpClient _client;
+        
+        private readonly string _sessionsUrl;
 
         public Sessions()
         {
             _client = new HttpClient();
+            
+            var config = Startup.Configuration["SESSIONS_PORT"];
+            if(string.IsNullOrEmpty(config))
+            {
+                _sessionsUrl = "http://localhost:5001/sessions/";
+            }
+            else
+            {
+                _sessionsUrl = $"http{config.Substring(3)}/sessions/";
+            }
         }
         
         public async Task<IList<Session>> Get()
         {
-            var json = await _client.GetStringAsync("http://localhost:5001/sessions/");
+            var json = await _client.GetStringAsync(_sessionsUrl);
             return JsonConvert.DeserializeObject<IList<Session>>(json);
         }
     }

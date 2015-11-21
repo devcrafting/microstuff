@@ -20,20 +20,20 @@ namespace MicroStuff.Models
         public TimeSpan Start { get; set; }
 		public TimeSpan End { get; set; }
         
-        // public bool Equals(Slot slot)
-        // {
-        //     return slot?.Id == Id;
-        // }
-        // 
-        // public override bool Equals (object obj)
-        // {
-        //     return Equals(obj as Slot);
-        // }
-        // 
-        // // override object.GetHashCode
-        // public override int GetHashCode()
-        // {
-        //     return Id;
-        // }
+        public bool Equals(Slot slot)
+        {
+            return slot?.Id == Id;
+        }
+        
+        public override bool Equals (object obj)
+        {
+            return Equals(obj as Slot);
+        }
+        
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return Id;
+        }
     }
 }

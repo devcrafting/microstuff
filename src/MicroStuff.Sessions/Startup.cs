@@ -7,6 +7,7 @@ using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MicroStuff.Sessions.Data;
 
 namespace MicroStuff.Sessions
 {
@@ -28,6 +29,11 @@ namespace MicroStuff.Sessions
         {
             // Add framework services.
             services.AddMvc();
+            
+            services.AddSingleton<ISlots, Slots>();
+            services.AddSingleton<IRooms, Rooms>();
+            services.AddSingleton<ISpeakers, Speakers>();
+            services.AddSingleton<ISessions, Data.Sessions>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

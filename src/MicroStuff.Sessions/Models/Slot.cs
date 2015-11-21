@@ -1,6 +1,6 @@
 using System;
 
-namespace MicroStuff.Models
+namespace MicroStuff.Sessions.Models
 {
     public class Slot
     {

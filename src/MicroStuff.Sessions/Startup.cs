@@ -41,6 +41,12 @@ namespace MicroStuff.Sessions
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            
+            var consul = Configuration["CONSUL"];
+            if (!string.IsNullOrEmpty(consul))
+            {
+                new ConsulClient(consul).Register("sessions", 5000).Wait();
+            }
 
             app.UseIISPlatformHandler();
 

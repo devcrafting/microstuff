@@ -16,15 +16,24 @@ namespace MicroStuff.Data
     public class Sessions : ISessions
     {
         private readonly HttpClient _client;
+        
+        private readonly IConsulClient _consulClient;
 
-        public Sessions()
+        public Sessions(IConsulClient consulClient)
         {
             _client = new HttpClient();
+            _consulClient = consulClient;
         }
         
         public async Task<IList<Session>> Get()
         {
-            var json = await _client.GetStringAsync("http://sessions:5000/sessions/");
+            var services = await _consulClient.FindAsync("sessions");
+            if (services == null)
+            {
+                return new Session[0];
+            }
+            var service = services.First();
+            var json = await _client.GetStringAsync($"http://{service.ServiceAddress}:{service.ServicePort}/sessions/");
             return JsonConvert.DeserializeObject<IList<Session>>(json);
         }
     }

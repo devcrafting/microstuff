@@ -1,0 +1,29 @@
+consul:
+  image: gliderlabs/consul-server
+  container_name: consul
+  net: stuffnet
+  command: -bootstrap
+  ports:
+    - "8500:8500"
+
+app:
+  image: cloudlens/dnx-watch
+  net: stuffnet
+  environment:
+    CONSUL: "http://consul:8500/"
+    DNX_PROJECT: MicroStuff
+  ports:
+    - "5000:5000"
+  volumes:
+    - .:/project
+    
+sessions:
+  image: cloudlens/dnx-watch
+  net: stuffnet
+  environment:
+    CONSUL: "http://consul:8500/"
+    DNX_PROJECT: MicroStuff.Sessions
+  ports:
+    - "5001:5000"
+  volumes:
+    - .:/project
